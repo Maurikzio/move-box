@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move-box</title>
+    <style>
+        *{
+            margin: 0px;
+        }
+        #container{
+            width: 600px;
+            height: 300px;
+            background-color: black;
+        }
+        #box{
+            width: 30px;
+            height: 30px;
+            margin: 0;
+            background-color: white;
+            position: absolute;
+        }
+        #controls{
+            margin-top: 10px;
+            width: 600px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="box"></div>
+    </div>
+
+    <div id="controls">
+        <div>
+            <button id="u">&#11014</button>
+        </div>
+        <div>
+            <button id="l">&#11013</button>
+            <button id="r">&#10145</button>
+        </div>
+        <div>
+            <button id="d">&#11015</button>
+        </div>
+    </div>
+    
+    <script src="./move-box.js"></script>
+</body>
+</html>
