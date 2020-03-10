@@ -1,10 +1,10 @@
 document.body.style.backgroundColor = 'orange';
 
 //controls
-const rigth = document.getElementById('r');
-const left = document.getElementById('l');
-const up = document.getElementById('u');
-const down = document.getElementById('d');
+const right = document.getElementById('Right');
+const left = document.getElementById('Left');
+const up = document.getElementById('Up');
+const down = document.getElementById('Down');
 //elements
 const container = document.getElementById('container');
 const box = document.getElementById('box');
@@ -19,21 +19,22 @@ function movement(event){
     const distance = 33;
     const verticalPos = parseInt(box.style.top);
     const horizontalPos = parseInt(box.style.left);
-    const btn = event.target.id
+    const btn = event.target.id || event.keyIdentifier;
+    // console.log(btn);
 
-    if(btn === 'd') {
+    if(btn === 'Down') {
         if(!(boxCoords.bottom + distance <= parentCoords.bottom)) return;
         box.style.top = `${verticalPos+distance}px`;
     }
-    if(btn === 'u') {
+    if(btn === 'Up') {
         if(!(boxCoords.top - distance >= parentCoords.top)) return; 
         box.style.top = `${verticalPos-distance}px`;
     }
-    if(btn === 'r') {
+    if(btn === 'Right') {
         if((boxCoords.right + distance >= parentCoords.right)) return;
         box.style.left = `${horizontalPos+distance}px`;
     }
-    if(btn === 'l') {
+    if(btn === 'Left') {
         if(!(boxCoords.left - distance >= parentCoords.left)) return;
         box.style.left = `${horizontalPos-distance}px`;
     }
@@ -42,17 +43,6 @@ function movement(event){
 down.addEventListener('click', movement);
 up.addEventListener('click', movement);
 left.addEventListener('click', movement);
-rigth.addEventListener('click', movement);
+right.addEventListener('click', movement);
 
-/*
-to check if box reaches the edge in the next move
-if(btn === 'd') {
-    console.log(`box top: ${boxCoords.top + 30 + distance}`);
-    console.log(`parent bottom: ${parentCoords.bottom}`);
-    if(boxCoords.top + 30 + distance > parentCoords.bottom){
-         const toReachEdge = parentCoords.bottom - (boxCoords.top + 30);
-         box.style.top = `${verticalPos+toReachEdge}px`;
-         return;
-    }
-    box.style.top = `${verticalPos+distance}px`;
-}*/
+window.addEventListener('keydown', movement);
