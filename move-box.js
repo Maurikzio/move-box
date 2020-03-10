@@ -1,60 +1,8 @@
 document.body.style.backgroundColor = 'orange';
 
-
-//controls
-const right = document.getElementById('Right');
-const left = document.getElementById('Left');
-const up = document.getElementById('Up');
-const down = document.getElementById('Down');
-//elements
-const container = document.getElementById('container');
-const box = document.getElementById('box');
-// setTimeout(() => {
-//     box.style.transition = 'all 0.5s';
-//   }, 300)
-
-//initial box state
-box.style.top = '200px';
-box.style.left = '50px';
-
-function movement(event){
-    const boxCoords = document.getElementById('box').getBoundingClientRect();
-    const parentCoords = container.getBoundingClientRect();
-    const distance = 50;
-    const verticalPos = parseInt(box.style.top);
-    const horizontalPos = parseInt(box.style.left);
-    const btn = event.target.id || event.keyIdentifier;
-    // console.log(btn);
-
-    if(btn === 'Down') {
-        if(!(boxCoords.bottom + distance <= parentCoords.bottom)) return;
-        box.style.top = `${verticalPos+distance}px`;
-    }
-    if(btn === 'Up') {
-        if(!(boxCoords.top - distance >= parentCoords.top)) return; 
-        box.style.top = `${verticalPos-distance}px`;
-    }
-    if(btn === 'Right') {
-        if((boxCoords.right + distance >= parentCoords.right)) return;
-        box.style.left = `${horizontalPos+distance}px`;
-    }
-    if(btn === 'Left') {
-        if(!(boxCoords.left - distance >= parentCoords.left)) return;
-        box.style.left = `${horizontalPos-distance}px`;
-    }
-}
-
-down.addEventListener('click', movement);
-up.addEventListener('click', movement);
-left.addEventListener('click', movement);
-right.addEventListener('click', movement);
-
-window.addEventListener('keydown', movement);
-
-
 class Box {
     constructor(x, y, speed, color){
-        this.box = document.getElementById('box2');
+        this.box = document.createElement('div');
         this.parent = document.getElementById('container');
         this.box.style.width = '30px';
         this.box.style.height = '30px';
@@ -67,8 +15,7 @@ class Box {
     get coordinates(){
         return this.box.getBoundingClientRect();
     }
-
-    set coordinates([top='100px', left='100px']){
+    set coordinates([top=0, left=0]){
         [this.box.style.top, this.box.style.left] = [`${top}px`, `${left}px`];
     }
     setControls(){
@@ -82,32 +29,33 @@ class Box {
         const verticalPos = this.coordinates.top;
         const horizontalPos = this.coordinates.left;
         const btn = event.target.id || event.keyIdentifier;
-        
+        const parentCoords = this.parent.getBoundingClientRect();
+
         switch(btn){
             case 'Down':
-                if(!(this.coordinates.bottom + this.distance <= this.parent.getBoundingClientRect().bottom)) break;
+                if(!(this.coordinates.bottom + this.distance <= parentCoords.bottom)) break;
                 this.box.style.top = `${verticalPos + this.distance}px`;
             break;
             case 'Up':
-                if(!(this.coordinates.top - this.distance >= this.parent.getBoundingClientRect().top)) break; 
+                if(!(this.coordinates.top - this.distance >= parentCoords.top)) break; 
                 this.box.style.top = `${verticalPos - this.distance}px`;
             break;
             case 'Right':
-                if((this.coordinates.right + this.distance >= this.parent.getBoundingClientRect().right)) break;
+                if((this.coordinates.right + this.distance >= parentCoords.right)) break;
                 this.box.style.left = `${horizontalPos + this.distance}px`;
             break;
             case 'Left':
-                if(!(this.coordinates.left - this.distance >= this.parent.getBoundingClientRect().left)) break;
+                if(!(this.coordinates.left - this.distance >= parentCoords.left)) break;
                 this.box.style.left = `${horizontalPos - this.distance}px`;
             break;
         }
     }
-
     start(){
+        this.parent.append(this.box);
         window.addEventListener('keydown', this.move.bind(this));
         this.setControls().forEach(control => {
-            control.addEventListener('click', this.move);
-        })
+            control.addEventListener('click', this.move.bind(this));
+        });
     }
 }
 
@@ -115,9 +63,15 @@ const pinkBox = new Box(50, 50, 50, 'red');
 // pinkBox.coordinates = [150, 40];
 pinkBox.start();
 
-const b = document.createElement('div');
-b.style.backgroundColor = 'red';
-function show(element){
-    console.log(this.style);
-}
-show.call(b);
+const greenBox = new Box(10, 10, 30, 'green');
+greenBox.start();
+
+const whiteBox = new Box(30, 80, 20, 'white');
+whiteBox.start();
+
+// const b = document.createElement('div');
+// b.style.backgroundColor = 'red';
+// function show(element){
+//     console.log(this.style);
+// }
+// show.call(b);
